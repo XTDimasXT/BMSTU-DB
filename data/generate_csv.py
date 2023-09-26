@@ -4,15 +4,25 @@ import os
 from config import fake, cur_dir, BOOKMAKERS, BANKS, SPORTS, STATUS_ACCOUNT, STATUS_BETS, STATUS_TICKETS, STATUS_TRANSACTIONS, TYPES_BETS, TYPES_TRANSACTIONS, THEMES_TICKETS, COUNT
 
 
-def generate_user():
+def generate_random_arr():
+    arr = []
+    for i in range(COUNT):
+        arr.append(i + 1)
+        
+    random.shuffle(arr)
+    
+    return arr
+
+
+def generate_user(book_id, bet_id, transaction_id, ticket_id):
     last_name = fake.last_name()
     first_name = fake.first_name()
     passport_series = str(random.randint(1000, 9999))
     passport_number = str(random.randint(100000, 999999))
     ban_status = random.choice(STATUS_ACCOUNT)
 
-    data = [last_name, first_name, passport_series, passport_number, ban_status]
-    res = ",". join(data)
+    data = [str(book_id), str(bet_id), str(transaction_id), str(ticket_id), last_name, first_name, passport_series, passport_number, ban_status]
+    res = ",".join(data)
 
     return res
 
@@ -21,12 +31,17 @@ def generate_users():
     file_name = cur_dir + "/users.csv"
     file = open(file_name, "w")
 
-    header = "last_name,first_name,passport_series,passport_number,ban_status"
+    header = "book_id,bet_id,transaction_id,ticket_id,last_name,first_name,passport_series,passport_number,ban_status"
     file.write(header)
     file.write('\n')
+    
+    books_id = generate_random_arr()
+    bets_id = generate_random_arr()
+    transactions_id = generate_random_arr()
+    tickets_id = generate_random_arr()
 
-    for _ in range(COUNT):
-        file.write(generate_user())
+    for i in range(COUNT):
+        file.write(generate_user(books_id[i], bets_id[i], transactions_id[i], tickets_id[i]))
         file.write('\n')
 
 
@@ -38,7 +53,7 @@ def generate_bookmaker():
     active_users = str(random.randint(10_000, int(users)))
 
     data = [bookmaker_name, profit, marketing_spent, users, active_users]
-    res = ",". join(data)
+    res = ",".join(data)
 
     return res
 
@@ -64,7 +79,7 @@ def generate_bet():
     bet_type = random.choice(TYPES_BETS)
 
     data = [kind_of_sport, summ, coefficient, bet_status, bet_type]
-    res = ",". join(data)
+    res = ",".join(data)
 
     return res
 
@@ -73,7 +88,7 @@ def generate_bets():
     file_name = cur_dir + "/bets.csv"
     file = open(file_name, "w")
 
-    header = "kind_of_sport, summ, coefficient, bet_status, bet_type"
+    header = "kind_of_sport,summ,coefficient,bet_status,bet_type"
     file.write(header)
     file.write('\n')
 
@@ -99,7 +114,7 @@ def generate_transactions():
     file_name = cur_dir + "/transactions.csv"
     file = open(file_name, "w")
 
-    header = "transaction_type, bank, summ, transaction_status, transaction_date"
+    header = "transaction_type,bank,summ,transaction_status,transaction_date"
     file.write(header)
     file.write('\n')
 
@@ -116,7 +131,7 @@ def generate_ticket():
     ticket_date = fake.date()
 
     data = [worker_last_name, worker_first_name, theme, ticket_status, ticket_date]
-    res = ",". join(data)
+    res = ",".join(data)
 
     return res
 
@@ -125,7 +140,7 @@ def generate_tickets():
     file_name = cur_dir + "/tickets.csv"
     file = open(file_name, "w")
 
-    header = "worker_last_name, worker_first_name, theme, ticket_status, ticket_date"
+    header = "worker_last_name,worker_first_name,theme,ticket_status,ticket_date"
     file.write(header)
     file.write('\n')
 
