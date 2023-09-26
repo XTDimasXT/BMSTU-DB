@@ -1,8 +1,9 @@
 from faker import Faker
 import os
 
-faker_en = Faker(locale="en")
+fake = Faker(locale="EN")
 cur_dir = os.path.abspath(os.getcwd()) + "/data"
+COUNT = 1000
 
 BOOKMAKERS = ["1XSTAVKA", "LIGA STAVOK", "WINLINE", "FONBET", "BETCITY", "PARI", "LEON", "MELBET", "BETBOOM"]
 BANKS = ["SBERBANK", "TINKOFF", "ALFABANK", "VTB", "RAIFFEISENBANK"]
@@ -17,4 +18,3 @@ TYPES_BETS = ["SINGLE", "MULTIPLE"]
 TYPES_TRANSACTIONS = ["WITHDRAW", "DEPOSIT"]
 
 THEMES_TICKETS = ["GENERAL", "WITHDRAW", "DEPOSIT", "VERIFICATION"]
-

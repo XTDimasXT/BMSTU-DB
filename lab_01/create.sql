@@ -2,9 +2,10 @@ CREATE SCHEMA IF NOT EXISTS lab;
 
 CREATE TABLE IF NOT EXISTS lab.Users(
     id SERIAL PRIMARY KEY,
+    last_name TEXT NOT NULL,
     first_name TEXT NOT NULL,
-    second_name TEXT NOT NULL,
-    passport INT NOT NULL,
+    passport_series INT NOT NULL,
+    passport_number INT NOT NULL,
     ban_status TEXT NOT NULL
 );
 
@@ -37,9 +38,9 @@ CREATE TABLE IF NOT EXISTS lab.Transactions(
 
 CREATE TABLE IF NOT EXISTS lab.Tickets(
     id SERIAL PRIMARY KEY,
-    worker TEXT NOT NULL,
+    worker_last_name TEXT NOT NULL,
+    worket_first_name TEXT NOT NULL
     theme TEXT NOT NULL,
-    ticket_text TEXT NOT NULL,
     ticket_status TEXT NOT NULL,
     ticket_date DATE
 );
