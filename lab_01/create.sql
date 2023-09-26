@@ -2,6 +2,10 @@ CREATE SCHEMA IF NOT EXISTS lab;
 
 CREATE TABLE IF NOT EXISTS lab.Users(
     id SERIAL PRIMARY KEY,
+    book_id INT,
+    bet_id INT,
+    transaction_id INT,
+    ticket_id INT,
     last_name TEXT NOT NULL,
     first_name TEXT NOT NULL,
     passport_series INT NOT NULL,

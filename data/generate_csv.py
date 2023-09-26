@@ -12,15 +12,16 @@ def generate_user():
     ban_status = random.choice(STATUS_ACCOUNT)
 
     data = [last_name, first_name, passport_series, passport_number, ban_status]
-    res = ", ". join(data)
+    res = ",". join(data)
 
     return res
 
 
 def generate_users():
-    file = open("users.csv", "w")
+    file_name = cur_dir + "/users.csv"
+    file = open(file_name, "w")
 
-    header = "last_name, first_name, passport_series, passport_number, ban_status"
+    header = "last_name,first_name,passport_series,passport_number,ban_status"
     file.write(header)
     file.write('\n')
 
@@ -37,15 +38,16 @@ def generate_bookmaker():
     active_users = str(random.randint(10_000, int(users)))
 
     data = [bookmaker_name, profit, marketing_spent, users, active_users]
-    res = ", ". join(data)
+    res = ",". join(data)
 
     return res
 
 
 def generate_bookmakers():
-    file = open("bookmakers.csv", "w")
+    file_name = cur_dir + "/bookmakers.csv"
+    file = open(file_name, "w")
 
-    header = "bookmaker_name, profit, marketing_spent, users, active_users"
+    header = "bookmaker_name,profit,marketing_spent,users,active_users"
     file.write(header)
     file.write('\n')
 
@@ -62,13 +64,14 @@ def generate_bet():
     bet_type = random.choice(TYPES_BETS)
 
     data = [kind_of_sport, summ, coefficient, bet_status, bet_type]
-    res = ", ". join(data)
+    res = ",". join(data)
 
     return res
 
 
 def generate_bets():
-    file = open("bets.csv", "w")
+    file_name = cur_dir + "/bets.csv"
+    file = open(file_name, "w")
 
     header = "kind_of_sport, summ, coefficient, bet_status, bet_type"
     file.write(header)
@@ -87,13 +90,14 @@ def generate_transaction():
     transaction_date = fake.date()
 
     data = [transaction_type, bank, summ, transaction_status, transaction_date]
-    res = ", ". join(data)
+    res = ",". join(data)
 
     return res
 
 
 def generate_transactions():
-    file = open("transactions.csv", "w")
+    file_name = cur_dir + "/transactions.csv"
+    file = open(file_name, "w")
 
     header = "transaction_type, bank, summ, transaction_status, transaction_date"
     file.write(header)
@@ -112,15 +116,16 @@ def generate_ticket():
     ticket_date = fake.date()
 
     data = [worker_last_name, worker_first_name, theme, ticket_status, ticket_date]
-    res = ", ". join(data)
+    res = ",". join(data)
 
     return res
 
 
 def generate_tickets():
-    file = open("tickets.csv", "w")
+    file_name = cur_dir + "/tickets.csv"
+    file = open(file_name, "w")
 
-    header = "worker_last_name, worket_first_name, theme, ticket_status, ticket_date"
+    header = "worker_last_name, worker_first_name, theme, ticket_status, ticket_date"
     file.write(header)
     file.write('\n')
 
