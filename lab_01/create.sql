@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS lab.Transactions(
 CREATE TABLE IF NOT EXISTS lab.Tickets(
     id SERIAL PRIMARY KEY,
     worker_last_name TEXT NOT NULL,
-    worket_first_name TEXT NOT NULL,
+    worker_first_name TEXT NOT NULL,
     theme TEXT NOT NULL,
     ticket_status TEXT NOT NULL,
     ticket_date DATE
