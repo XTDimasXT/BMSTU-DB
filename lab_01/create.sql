@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS lab.Bets(
     id SERIAL PRIMARY KEY,
     kind_of_sport TEXT NOT NULL,
     summ INT NOT NULL,
-    coefficient UNSIGNED DECIMAL(5, 2),
+    coefficient DECIMAL(5, 2),
     bet_status TEXT NOT NULL,
     bet_type TEXT NOT NULL
 );
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS lab.Transactions(
 CREATE TABLE IF NOT EXISTS lab.Tickets(
     id SERIAL PRIMARY KEY,
     worker_last_name TEXT NOT NULL,
-    worket_first_name TEXT NOT NULL
+    worket_first_name TEXT NOT NULL,
     theme TEXT NOT NULL,
     ticket_status TEXT NOT NULL,
     ticket_date DATE

@@ -43,6 +43,8 @@ def generate_users():
     for i in range(COUNT):
         file.write(generate_user(books_id[i], bets_id[i], transactions_id[i], tickets_id[i]))
         file.write('\n')
+        
+    file.close()
 
 
 def generate_bookmaker():
@@ -69,6 +71,8 @@ def generate_bookmakers():
     for _ in range(COUNT):
         file.write(generate_bookmaker())
         file.write('\n')
+        
+    file.close()
 
 
 def generate_bet():
@@ -95,6 +99,8 @@ def generate_bets():
     for _ in range(COUNT):
         file.write(generate_bet())
         file.write('\n')
+        
+    file.close()
 
 
 def generate_transaction():
@@ -121,6 +127,8 @@ def generate_transactions():
     for _ in range(COUNT):
         file.write(generate_transaction())
         file.write('\n')
+        
+    file.close()
 
 
 def generate_ticket():
@@ -147,6 +155,8 @@ def generate_tickets():
     for _ in range(COUNT):
         file.write(generate_ticket())
         file.write('\n')
+        
+    file.close()
 
 
 def main():
