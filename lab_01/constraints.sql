@@ -21,10 +21,10 @@ ALTER TABLE lab.Tickets
     ADD CONSTRAINT check_date_ticket CHECK (ticket_date <= current_date);
 
 ALTER TABLE lab.Users
-    ADD CONSTRAINT fk_book FOREIGN KEY (book_id) REFERENCES lab.Bookmakers(id);
+    ADD CONSTRAINT fk_book FOREIGN KEY (book_id) REFERENCES lab.Bookmakers(id) ON DELETE CASCADE;
 ALTER TABLE lab.Users
-    ADD CONSTRAINT fk_bet FOREIGN KEY (bet_id) REFERENCES lab.Bets(id);
+    ADD CONSTRAINT fk_bet FOREIGN KEY (bet_id) REFERENCES lab.Bets(id) ON DELETE CASCADE;
 ALTER TABLE lab.Users
-    ADD CONSTRAINT fk_transaction FOREIGN KEY (transaction_id) REFERENCES lab.Transactions(id);
+    ADD CONSTRAINT fk_transaction FOREIGN KEY (transaction_id) REFERENCES lab.Transactions(id) ON DELETE CASCADE;
 ALTER TABLE lab.Users
-    ADD CONSTRAINT fk_ticket FOREIGN KEY (ticket_id) REFERENCES lab.Tickets(id);
+    ADD CONSTRAINT fk_ticket FOREIGN KEY (ticket_id) REFERENCES lab.Tickets(id) ON DELETE CASCADE;
