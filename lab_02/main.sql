@@ -97,12 +97,14 @@ WHERE ban_status = 'BANNED';
 
 
 -- 12. Инструкция SELECT, использующая вложенные коррелированные подзапросы в качестве производных таблиц в предложении FROM.
--- Выводит букмекеров, где профит больше среднего
-SELECT id, bookmaker_name
-FROM lab.Bookmakers b
-WHERE profit > (SELECT AVG(profit) 
-                FROM lab.Bookmakers 
-                WHERE bookmaker_name = b.bookmaker_name);
+-- Выводит пользователей, у кого присутствуют ставки
+SELECT u.id, first_name, last_name
+FROM lab.Users u JOIN 
+                (SELECT id, COUNT(id) as bets_count
+                 FROM lab.Bets
+                 GROUP BY id) as d
+ON u.id = d.id
+WHERE bets_count > 0;
 
 
 -- 13. Инструкция SELECT, использующая вложенные подзапросы с уровнем вложенности 3.
@@ -158,7 +160,7 @@ WHERE coefficient > 24.98;
 -- 18. Простая инструкция UPDATE.
 -- Умножает коэффициенты выигранных ставок на 1.5
 UPDATE lab.Bets
-SET coefficient = coefficient * 1.5
+SET coefficient = coefficient * 2
 WHERE bet_status = 'WON';
 
 
@@ -225,7 +227,7 @@ WITH RECURSIVE tempnew(id, kind_of_sport, summ, next_id)
         -- Определение рекурсивного элемента
         SELECT t.id, t.kind_of_sport, t.summ, t.next_id
         FROM temp AS t
-            JOIN tempnew AS R ON R.next_id = t.id
+            JOIN tempnew AS tn ON tn.next_id = t.id
     )
 
 -- Инструкция, использующая обобщенное табличное выражение
@@ -287,3 +289,24 @@ WITH temp
 SELECT *
 FROM delete_twin
 WHERE i = 1;
+
+
+
+-- Защита
+-- Вывести имя всех пользователей, которые делали ставки на теннис, при этом ставка = 'WON', у него был тикет который 'NOT SOLVED'
+SELECT u.id, u.first_name
+FROM lab.Users u
+JOIN lab.Bets b ON u.bet_id = b.id
+JOIN lab.Tickets t ON u.ticket_id = t.id
+WHERE b.kind_of_sport = 'TENNIS' 
+AND b.bet_status = 'WON'
+AND t.ticket_status = 'NOT SOLVED';
+
+
+
+SELECT u.id as user_id, u.first_name, b.id as bet_id, b.kind_of_sport, b.bet_status, t.id as ticket_id, t.ticket_status
+FROM lab.Users u
+JOIN lab.Bets b ON u.bet_id = b.id
+JOIN lab.Tickets t ON u.ticket_id = t.id
+WHERE b.kind_of_sport = 'TENNIS'
+AND b.bet_status = 'WON';
