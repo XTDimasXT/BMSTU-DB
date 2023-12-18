@@ -301,12 +301,3 @@ JOIN lab.Tickets t ON u.ticket_id = t.id
 WHERE b.kind_of_sport = 'TENNIS' 
 AND b.bet_status = 'WON'
 AND t.ticket_status = 'NOT SOLVED';
-
-
-
-SELECT u.id as user_id, u.first_name, b.id as bet_id, b.kind_of_sport, b.bet_status, t.id as ticket_id, t.ticket_status
-FROM lab.Users u
-JOIN lab.Bets b ON u.bet_id = b.id
-JOIN lab.Tickets t ON u.ticket_id = t.id
-WHERE b.kind_of_sport = 'TENNIS'
-AND b.bet_status = 'WON';
