@@ -72,3 +72,34 @@ END;
 $$ LANGUAGE PLPGSQL;
 
 SELECT * FROM find_fib(1, 1, 21);
+
+
+-- Защита
+-- Функция или процедура, которая в качестве параметра принимает фамилию пользователя и возвращает количество ставок, сделанных
+-- пользователем на конкретный вид спорта
+-- Вывод: фамилия, вид спорта, общее кол-во ставок
+
+
+CREATE OR REPLACE FUNCTION get_bets_by_surname(surname TEXT)
+RETURNS TABLE
+(
+    last_name TEXT,
+    kind_of_sport TEXT,
+    bet_count INT
+)
+AS $$
+    SELECT u.last_name, b.kind_of_sport, COUNT(b.id) as bet_count
+    FROM lab.Users u
+    JOIN lab.Bets b
+    ON u.bet_id = b.id
+    WHERE u.last_name = surname
+    GROUP BY u.last_name, b.kind_of_sport;
+$$ LANGUAGE SQL;
+
+SELECT * FROM get_bets_by_surname('Collins');
+
+SELECT u.first_name, u.last_name, b.kind_of_sport
+FROM lab.Users u
+JOIN lab.Bets b
+ON u.bet_id = b.id
+WHERE u.last_name = 'Collins';

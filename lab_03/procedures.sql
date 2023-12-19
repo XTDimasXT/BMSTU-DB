@@ -83,6 +83,7 @@ call get_sum_transactions_from_date('2021-01-01');
 
 
 -- 4. Хранимая процедура доступа к метаданным
+-- Выводит атрибуты и их типы таблицы, которая принимается в качестве параметра
 CREATE OR REPLACE PROCEDURE meta_data(name_table text)
 AS $$
 DECLARE
