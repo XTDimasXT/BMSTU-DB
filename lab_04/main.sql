@@ -8,27 +8,26 @@ AS $$
     result = plpy.execute(f" \
         SELECT summ \
         FROM lab.Bets  \
-        WHERE id = {id_};")
+        WHERE id = {id_}")
 
-    RETURN result[0]["summ"]
-$$ LANGUAGE plpython3u;
+    return result[0]["summ"]
+$$ language plpython3u;
 
 SELECT get_bet_summ(12);
 
 
 -- 2. Пользовательская агрегатная функция CLR
--- Выводит сумму ставки по ее идентификатору
-CREATE OR REPLACE FUNCTION get_avg_summ(kind_of_sport_ TEXT) RETURNS VARCHAR
+-- Выводит среднюю сумму ставки
+CREATE OR REPLACE FUNCTION get_avg_summ() RETURNS float
 AS $$
     result = plpy.execute(f" \
         SELECT AVG(summ) \
-        FROM lab.Bets  \
-        WHERE kind_of_sport = {kind_of_sport_};")
+        FROM lab.bets")
 
-    RETURN result[0]["avg"]
+    return result[0]["avg"]
 $$ LANGUAGE plpython3u;
 
-SELECT get_avg_summ('TABLE TENNIS');
+SELECT get_avg_summ();
 
 
 -- 3. Определяемая пользователем табличная функция CLR
@@ -44,7 +43,7 @@ AS $$
     table = plpy.execute(f"\
         SELECT bookmaker_name, profit, users \
         FROM lab.Bookmakers \
-        WHERE profit > {profit_}
+        WHERE profit > {profit_} \
         ORDER BY profit;")
     result = []
 
@@ -81,32 +80,34 @@ call bonus_coefficient_tennis();
 
 -- 5. Триггер CLR
 -- Вместо удаления тикета со статусом 'SOLVED' изменяет его статус
-CREATE VIEW tmp_tickets
+CREATE VIEW tmp_users as
 SELECT *
-FROM lab.Tickets
-WHERE id BETWEEN 100 AND 200;
+FROM lab.Users
+WHERE bet_id < 200;
 
-CREATE OR REPLACE FUNCTION delete_solved_tickets()
+CREATE OR REPLACE FUNCTION delete_users()
     RETURNS TRIGGER LANGUAGE plpython3u
 AS $$
     plpy.execute(f'''
-        UPDATE tmp_tickets
-        SET ticket_status = 'ticket was already solved'
-        WHERE tmp_tickets.ticket_status = {TD["old"]["ticket_status"]};
+        UPDATE tmp_users
+        SET ban_status = 'BANNED'
+        WHERE tmp_users.bet_id = {TD["old"]["bet_id"]};
         ''')
-    RETURN "MODIFY"
+    return "MODIFY"
 $$;
 
 CREATE TRIGGER del_status_trigger
-    INSTEAD of DELETE ON tmp_tickets
+    INSTEAD of DELETE ON tmp_users
     FOR each ROW
-    EXECUTE PROCEDURE delete_solved_tickets();
+    EXECUTE PROCEDURE delete_users();
 
-DELETE FROM tmp_tickets
-WHERE ticket_status = 'SOLVED';
+select * from tmp_users;
 
-SELECT *
-FROM tmp_tickets;
+DELETE FROM tmp_users
+WHERE bet_id < 200;
+
+SELECT id, bet_id, last_name, first_name, ban_status
+FROM tmp_users;
 
 -- 6. Определяемый пользователем тип данных CLR
 -- Создает типы "финансы" с дополнительным полем "profit_total"
@@ -124,7 +125,7 @@ CREATE OR REPLACE FUNCTION get_financials()
 AS $$
     result = plpy.cursor(f"\
         SELECT id, bookmaker_name, profit, marketing_spent \
-        FROM lab.Financials \
+        FROM lab.bookmakers \
         ORDER BY profit")
 
     for elem in map(lambda elem: (elem['id'], elem['bookmaker_name'], elem['profit'], elem['marketing_spent'], elem['profit'] - elem['marketing_spent']), result):
