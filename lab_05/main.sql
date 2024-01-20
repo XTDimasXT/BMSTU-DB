@@ -136,10 +136,10 @@ SELECT jsonb_array_elements(data::jsonb)
 FROM lab.Bets_tmp;
 
 
--- Пример добавления
+-- Допустим, мы хотим забанить все аккаунты
 
--- cat bets.json | jq '.[] |= . + { "ban_status": "true" }'
+jq '.[] |= . + { "ban_status": "true" }'
 
 -- .[] - применить ко всем элементам
 -- |= - оператор обновления
--- . + { "age": 30 }
+-- . + { "ban_status": "true" } - добавляет к элементу поле ban_status со значением true
